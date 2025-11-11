@@ -1,46 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Happy Birthday Yashaswi 🖤</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: "Poppins", sans-serif;
-      background: linear-gradient(135deg, #f9d7ff, #c7a7ff);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      text-align: center;
-      color: #4b2b71;
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Birthday Surprise</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #fdebd0;
+    overflow-x: hidden;
+    text-align: center;
+  }
+  h1 {
+    margin-top: 50px;
+    font-size: 3rem;
+    color: #e67e22;
+  }
+  #enterBtn {
+    margin-top: 20px;
+    padding: 15px 30px;
+    background: #e74c3c;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  #enterBtn:hover {
+    background: #c0392b;
+  }
+  #cake {
+    width: 200px;
+    margin-top: 40px;
+    display: none;
+    cursor: pointer;
+  }
+  #instruction {
+    display: none;
+    font-size: 1.5rem;
+    margin-top: 20px;
+    color: #d35400;
+  }
+  .confetti-piece {
+    position: fixed;
+    width: 10px;
+    height: 20px;
+    background-color: red;
+    top: -20px;
+    animation: fall 3s linear forwards;
+  }
+  @keyframes fall {
+    to {
+      transform: translateY(120vh) rotate(360deg);
     }
-    h1 {
-      font-size: 3rem;
-      margin: 0;
-    }
-    p {
-      font-size: 1.3rem;
-      margin-top: 15px;
-    }
-    .heart {
-      font-size: 2.5rem;
-      animation: beat 1s infinite;
-    }
-    @keyframes beat {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
-  <div>
-    <h1>🎀 Happy Birthday, Yashaswi! 🎀</h1>
-    <p>Aap meri zindagi ki sabse khoobsurat kahaani ho.. 💜</p>
-    <p>May your day be filled with love, light & lavender skies :3</p>
-    <div class="heart">🖤</div>
-  </div>
+  <h1>Welcome To Yashu's Day 🎉</h1>
+  <button id="enterBtn">Enter</button>
+  <div id="instruction">Click the cake 🎂</div>
+  <img id="cake" src="https://i.imgur.com/WHR8cVW.png" alt="Cake" />
+  <audio id="birthdayAudio" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4d09ed28be.mp3?filename=happy-birthday-piano-11391.mp3"></audio>
+
+  <script>
+    const enterBtn = document.getElementById("enterBtn");
+    const cake = document.getElementById("cake");
+    const instruction = document.getElementById("instruction");
+    const audio = document.getElementById("birthdayAudio");
+
+    function createConfetti() {
+      for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti-piece");
+        confetti.style.left = Math.random() * window.innerWidth + "px";
+        confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+        confetti.style.animationDelay = Math.random() * 2 + "s";
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 5000);
+      }
+    }
+
+    enterBtn.addEventListener("click", () => {
+      createConfetti();
+      cake.style.display = "block";
+      instruction.style.display = "block";
+    });
+
+    cake.addEventListener("click", () => {
+      audio.play();
+      createConfetti();
+    });
+  </script>
 </body>
 </html>
