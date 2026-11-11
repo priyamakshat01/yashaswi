@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A new clue for you baby :3</title>
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    /* Envelope & Clue Reveal Styling */
+    .envelope-wrapper {
+      perspective: 1000px;
+      margin: 30px auto;
+      max-width: 480px;
+      cursor: pointer;
+    }
+
+    .envelope {
+      position: relative;
+      width: 100%;
+      height: 250px;
+      background: #fdf0f2;
+      border: 2px solid #ffccd5;
+      border-radius: 16px;
+      box-shadow: 0 14px 35px rgba(255, 82, 119, 0.18);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      overflow: hidden;
+    }
+
+    .envelope:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 45px rgba(255, 82, 119, 0.28);
+    }
+
+    .wax-seal {
+      width: 70px;
+      height: 70px;
+      background: radial-gradient(circle, #e63946 30%, #be123c 90%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffd166;
+      font-size: 2rem;
+      box-shadow: 0 6px 16px rgba(190, 18, 60, 0.4), inset 0 2px 5px rgba(255, 255, 255, 0.3);
+      border: 2px dashed rgba(255, 255, 255, 0.4);
+      transition: var(--transition);
+      z-index: 5;
+    }
+
+    .envelope:hover .wax-seal {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .envelope-stamp {
+      position: absolute;
+      top: 18px;
+      right: 20px;
+      width: 52px;
+      height: 60px;
+      background: #fff;
+      border: 2px dashed #ff9ebb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      border-radius: 4px;
+      transform: rotate(4deg);
+    }
+
+    .envelope-prompt {
+      margin-top: 16px;
+      font-family: var(--font-body);
+      font-weight: 600;
+      color: var(--primary);
+      font-size: 1.05rem;
+      animation: pulseText 2s infinite ease-in-out;
+    }
+
+    @keyframes pulseText {
+      0%, 100% { opacity: 0.85; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.03); }
+    }
+
+    /* Revealed Clue Card */
+    .hidden-clue-card {
+      display: none;
+      margin-top: 35px;
+      padding: 35px 30px;
+      background: #ffffff;
+      border: 2px solid #ffccd5;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      position: relative;
+    }
+
+    .hidden-clue-card.reveal {
+      display: block;
+      animation: slideUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .clue-riddle-box {
+      background: #fff8fa;
+      border-left: 5px solid var(--primary);
+      padding: 24px;
+      margin: 20px 0;
+      border-radius: 0 14px 14px 0;
+      box-shadow: 0 6px 20px rgba(255, 82, 119, 0.06);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Floating Particles Canvas -->
+  <canvas id="ambient-canvas"></canvas>
+
+  <div class="page-wrapper">
+
+    <!-- ================= CLEAN TOP HEADER ================= -->
+    <header class="site-header">
+      <div class="nav-container" style="justify-content: center;">
+        <span class="brand-logo" style="font-size: 2rem;">
+          <span class="brand-heart">💖</span>
+          <span>Happy Birthday Yashaswi!</span>
+          <span class="brand-heart">💖</span>
+        </span>
+      </div>
+    </header>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main class="container">
+
+      <!-- HERO HEADER -->
+      <section class="hero-section">
+        <div class="badge-pill">
+          🕵️‍♀️ Top Secret
+        </div>
+        <h1 class="page-title">
+          A new clue for you <span class="highlight">baby :3</span> 🎁
+        </h1>
+        <p class="page-subtitle">
+          Did you think the surprises stopped on screen? There is something special waiting for you! 
+          Tap the wax seal below to reveal your secret clue.
+        </p>
+      </section>
+
+      <!-- INTERACTIVE ENVELOPE -->
+      <div class="envelope-wrapper">
+        <div class="envelope" id="secret-envelope">
+          <div class="envelope-stamp">💌</div>
+          <div class="wax-seal">
+            🔒
+          </div>
+          <p class="envelope-prompt" id="envelope-prompt">
+            ✨ Click to Break The Seal & Reveal The Clue ✨
+          </p>
+        </div>
+      </div>
+
+      <!-- REVEALED CLUE CARD -->
+      <section class="hidden-clue-card" id="hidden-clue-card">
+        <div class="badge-pill" style="background: #fff0f3; margin-bottom: 12px;">
+          🎉 Mystery Unlocked!
+        </div>
+        
+        <h2 style="font-family: var(--font-heading); font-size: 1.9rem; color: var(--text-main); margin-bottom: 15px;">
+          A Secret Awaits 🗝️
+        </h2>
+
+        <!-- The Instagram Scavenger Riddle -->
+        <div class="clue-riddle-box" style="text-align: left; font-style: normal; font-family: var(--font-body); font-size: 1.05rem; line-height: 1.9; padding: 28px;">
+          <p style="margin-bottom: 22px; font-weight: 500; font-size: 1.15rem; color: var(--primary);">
+            A little secret has been hidden somewhere on Instagram. And naturally, it won't reveal itself without a little thinking.
+          </p>
+
+          <h3 style="font-family: var(--font-heading); color: var(--text-main); font-size: 1.35rem; margin: 20px 0 8px 0; border-bottom: 1px dashed #ffd1dc; padding-bottom: 4px;">
+            I. The First Door
+          </h3>
+          <p style="color: #4a4052; margin-bottom: 15px;">
+            Every celebration has one, and every year brings another.<br>
+            It's the day the world got a little more interesting.<br>
+            Take that occasion, pair it with the name of the person we're celebrating, and let the four digits at the end mark the occasion.<br>
+            <strong style="color: var(--primary);">What account are you looking for?</strong>
+          </p>
+
+          <h3 style="font-family: var(--font-heading); color: var(--text-main); font-size: 1.35rem; margin: 26px 0 8px 0; border-bottom: 1px dashed #ffd1dc; padding-bottom: 4px;">
+            II. The Key
+          </h3>
+          <p style="color: #4a4052; margin-bottom: 18px;">
+            You've found the door, but what opens it?<br>
+            The answer is closer than you think.<br>
+            The name of the birthday girl, followed by the number that makes her day special.<br>
+            <em>One small detail: the beginning is capitalised.</em>
+          </p>
+
+          <p style="margin-top: 26px; font-weight: 600; font-size: 1.25rem; color: var(--primary-dark); text-align: center;">
+            Now, let's see what's waiting inside. 🖤
+          </p>
+        </div>
+
+        <!-- NOTE -->
+        <div style="margin-top: 30px; padding: 18px; background: #fff0f5; border-radius: 12px;">
+          <p style="font-size: 0.98rem; color: var(--text-main); text-align: center;">
+            Take your time cracking the secret door! Once you're ready, click below to see your grand flower surprise! 🌹
+          </p>
+        </div>
+      </section>
+
+      <!-- PAGE NAVIGATION ACTIONS -->
+      <div class="page-navigation-actions" style="margin-bottom: 60px;">
+        <a href="about.html" class="btn btn-secondary">
+          ⬅ Back
+        </a>
+        <a href="flower.html" class="btn btn-primary btn-lg" style="font-size: 1.15rem; padding: 16px 40px;">
+          Its not over yet! ➔
+        </a>
+      </div>
+
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="site-footer">
+      <div class="container">
+        <p>Happy Birthday Mystery for <strong>Yashaswi</strong> 🎁 | Good luck finding it!</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+</body>
+</html>

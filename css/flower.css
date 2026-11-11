@@ -1,0 +1,321 @@
+/* ========================================================
+   GIFT WEBSITE - FLOWER SURPRISE STYLES
+   Romantic blooming rose animation & falling petals
+   ======================================================== */
+
+.flower-stage {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  height: 480px;
+  margin: 30px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+}
+
+/* Glass Terrarium / Vase Ambient Glow */
+.flower-halo {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 117, 143, 0.28) 0%, rgba(255, 209, 220, 0.1) 60%, transparent 80%);
+  filter: blur(25px);
+  animation: haloBreath 4s ease-in-out infinite alternate;
+}
+
+@keyframes haloBreath {
+  0% { transform: scale(0.9); opacity: 0.6; }
+  100% { transform: scale(1.15); opacity: 0.95; }
+}
+
+/* --- The Rose Construction --- */
+.rose-container {
+  position: relative;
+  width: 200px;
+  height: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* The Bloom */
+.rose-blossom {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  z-index: 10;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.rose-blossom:hover {
+  transform: scale(1.08) rotate(3deg);
+}
+
+/* Petal Layers */
+.petal {
+  position: absolute;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  transform-origin: bottom center;
+  box-shadow: inset 0 0 14px rgba(180, 20, 50, 0.35), 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: all 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Core Center */
+.petal-core {
+  top: 35px;
+  left: 45px;
+  width: 50px;
+  height: 65px;
+  background: linear-gradient(to top, #c71f47, #ff3366);
+  border-radius: 50%;
+  z-index: 5;
+  box-shadow: inset 0 0 10px #7d0a25;
+}
+
+/* Middle Layer Petals */
+.petal-mid-1 {
+  top: 25px;
+  left: 35px;
+  width: 70px;
+  height: 80px;
+  background: linear-gradient(135deg, #e62052 0%, #ff4d79 100%);
+  transform: rotate(-25deg);
+  z-index: 4;
+}
+
+.petal-mid-2 {
+  top: 25px;
+  left: 35px;
+  width: 70px;
+  height: 80px;
+  background: linear-gradient(-135deg, #e62052 0%, #ff4d79 100%);
+  transform: rotate(25deg);
+  z-index: 4;
+}
+
+/* Outer Blooming Petals */
+.petal-outer-1 {
+  top: 15px;
+  left: 20px;
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(to top, #d41446, #ff6b8b, #ffa8ba);
+  transform: rotate(-45deg);
+  z-index: 3;
+}
+
+.petal-outer-2 {
+  top: 15px;
+  left: 20px;
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(to top, #d41446, #ff6b8b, #ffa8ba);
+  transform: rotate(45deg);
+  z-index: 3;
+}
+
+.petal-outer-3 {
+  top: 25px;
+  left: 15px;
+  width: 110px;
+  height: 95px;
+  background: linear-gradient(to bottom right, #ff758f, #ff3b69, #be123c);
+  transform: rotate(-10deg);
+  z-index: 2;
+}
+
+.petal-outer-4 {
+  top: 25px;
+  left: 15px;
+  width: 110px;
+  height: 95px;
+  background: linear-gradient(to bottom left, #ff758f, #ff3b69, #be123c);
+  transform: rotate(10deg);
+  z-index: 2;
+}
+
+/* Sparkle glow on the flower */
+.flower-sparkle {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.4rem;
+  animation: sparkleRotate 2.5s infinite ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes sparkleRotate {
+  0%, 100% { transform: scale(0.8) rotate(0deg); opacity: 0.5; }
+  50% { transform: scale(1.3) rotate(45deg); opacity: 1; }
+}
+
+/* Rose Stem */
+.rose-stem {
+  position: absolute;
+  top: 125px;
+  width: 10px;
+  height: 200px;
+  background: linear-gradient(to right, #2d6a4f, #52b788, #2d6a4f);
+  border-radius: 5px;
+  z-index: 1;
+}
+
+/* Rose Leaves */
+.rose-leaf {
+  position: absolute;
+  width: 45px;
+  height: 25px;
+  background: linear-gradient(135deg, #40916c, #74c69d);
+  border-radius: 50% 0 50% 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.rose-leaf-left {
+  top: 170px;
+  left: -35px;
+  transform: rotate(-30deg);
+  border-radius: 0 50% 0 50%;
+}
+
+.rose-leaf-right {
+  top: 210px;
+  right: -35px;
+  transform: rotate(30deg);
+  border-radius: 50% 0 50% 0;
+}
+
+/* Flower Pot / Base */
+.rose-vase {
+  position: absolute;
+  bottom: 15px;
+  width: 110px;
+  height: 75px;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  border-radius: 12px 12px 28px 28px;
+  box-shadow: 0 12px 25px rgba(220, 68, 102, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 6;
+}
+
+.vase-ribbon {
+  width: 100%;
+  height: 12px;
+  background: linear-gradient(90deg, #ff4d79, #ffd166, #ff4d79);
+  position: absolute;
+  top: 18px;
+  border-radius: 4px;
+}
+
+.vase-bow {
+  position: absolute;
+  top: 12px;
+  font-size: 1.4rem;
+}
+
+/* Bloom animation trigger */
+.rose-blossom.bloomed .petal-outer-1 {
+  transform: rotate(-60deg) scale(1.1);
+}
+.rose-blossom.bloomed .petal-outer-2 {
+  transform: rotate(60deg) scale(1.1);
+}
+.rose-blossom.bloomed .petal-mid-1 {
+  transform: rotate(-35deg) translateY(-5px);
+}
+.rose-blossom.bloomed .petal-mid-2 {
+  transform: rotate(35deg) translateY(-5px);
+}
+
+/* --- Flower Controls & Cards --- */
+.flower-card {
+  max-width: 680px;
+  margin: 0 auto 30px auto;
+  text-align: center;
+}
+
+.flower-quote {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: 1.35rem;
+  color: var(--text-main);
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.flower-subquote {
+  font-family: var(--font-script);
+  font-size: 1.8rem;
+  color: var(--primary);
+  display: block;
+  margin-top: 10px;
+}
+
+/* Heartwarming Letter Modal / Card */
+.special-letter-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(45, 38, 51, 0.6);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.special-letter-modal.active {
+  display: flex;
+}
+
+.letter-content-box {
+  background: #fffdfa;
+  border: 2px solid #ffd1dc;
+  border-radius: 20px;
+  max-width: 580px;
+  width: 100%;
+  padding: 40px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  position: relative;
+  text-align: left;
+  animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes modalPop {
+  0% { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  background: #f1e4e8;
+  border: none;
+  font-size: 1.4rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.modal-close-btn:hover {
+  background: var(--primary);
+  color: #fff;
+}

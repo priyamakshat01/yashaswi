@@ -1,99 +1,497 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Birthday Surprise</title>
-<style>
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Poppins', sans-serif;
-    background: #fdebd0;
-    overflow-x: hidden;
-    text-align: center;
-  }
-  h1 {
-    margin-top: 50px;
-    font-size: 3rem;
-    color: #e67e22;
-  }
-  #enterBtn {
-    margin-top: 20px;
-    padding: 15px 30px;
-    background: #e74c3c;
-    border: none;
-    border-radius: 8px;
-    color: #fff;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  #enterBtn:hover {
-    background: #c0392b;
-  }
-  #cake {
-    width: 200px;
-    margin-top: 40px;
-    display: none;
-    cursor: pointer;
-  }
-  #instruction {
-    display: none;
-    font-size: 1.5rem;
-    margin-top: 20px;
-    color: #d35400;
-  }
-  .confetti-piece {
-    position: fixed;
-    width: 10px;
-    height: 20px;
-    background-color: red;
-    top: -20px;
-    animation: fall 3s linear forwards;
-  }
-  @keyframes fall {
-    to {
-      transform: translateY(120vh) rotate(360deg);
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Yashaswi! ✨🎂</title>
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <style>
+    /* ========================================================
+       CAKE CUTTING & CANDLE BLOW INTERACTIVE STYLES
+       ======================================================== */
+    .cake-stage {
+      position: relative;
+      width: 280px;
+      height: 250px;
+      margin: 25px auto 15px auto;
+      perspective: 800px;
     }
-  }
-</style>
+
+    /* Animated Knife */
+    .cake-knife {
+      position: absolute;
+      top: -30px;
+      right: 20px;
+      width: 80px;
+      height: 28px;
+      z-index: 50;
+      opacity: 0;
+      transform: rotate(45deg);
+      pointer-events: none;
+      transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .knife-blade {
+      position: absolute;
+      left: 0;
+      top: 6px;
+      width: 50px;
+      height: 14px;
+      background: linear-gradient(to right, #e0e0e0, #ffffff, #c0c0c0);
+      border-radius: 12px 2px 2px 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    }
+
+    .knife-handle {
+      position: absolute;
+      right: 0;
+      top: 4px;
+      width: 32px;
+      height: 18px;
+      background: linear-gradient(135deg, #d4af37, #f7d070, #aa820a);
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    /* Knife cutting animation */
+    .cake-knife.cutting {
+      opacity: 1;
+      top: 60px;
+      right: 100px;
+      transform: rotate(-35deg) scale(1.15);
+    }
+
+    .cake-knife.slice-down {
+      opacity: 1;
+      top: 130px;
+      right: 120px;
+      transform: rotate(0deg) scale(1.1);
+    }
+
+    /* Cake Base Plate */
+    .cake-plate {
+      position: absolute;
+      bottom: 10px;
+      left: 15px;
+      width: 250px;
+      height: 20px;
+      background: linear-gradient(180deg, #ffffff, #e9d5dc);
+      border-radius: 50%;
+      box-shadow: 0 10px 25px rgba(220, 68, 102, 0.2);
+    }
+
+    /* Cake Wrapper with Left & Right halves for smooth cut */
+    .cake-body {
+      position: absolute;
+      bottom: 24px;
+      left: 35px;
+      width: 210px;
+      height: 130px;
+      display: flex;
+      justify-content: center;
+      transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .cake-half {
+      width: 105px;
+      height: 130px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .cake-half-left {
+      border-radius: 14px 0 0 10px;
+      transform-origin: bottom left;
+    }
+
+    .cake-half-right {
+      border-radius: 0 14px 10px 0;
+      transform-origin: bottom right;
+    }
+
+    /* Cake Layers */
+    .layer-top {
+      position: absolute;
+      top: 0;
+      width: 210px;
+      height: 60px;
+      background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
+      box-shadow: inset 0 -5px 0 rgba(255, 82, 119, 0.2);
+    }
+
+    .layer-bottom {
+      position: absolute;
+      bottom: 0;
+      width: 210px;
+      height: 70px;
+      background: linear-gradient(135deg, #ffb3c1 0%, #ff8fa3 100%);
+      box-shadow: inset 0 -6px 0 rgba(217, 56, 92, 0.25);
+    }
+
+    .cake-half-left .layer-top,
+    .cake-half-left .layer-bottom {
+      left: 0;
+    }
+
+    .cake-half-right .layer-top,
+    .cake-half-right .layer-bottom {
+      left: -105px;
+    }
+
+    /* Cake Cream Frosting Drips */
+    .frosting-drip {
+      position: absolute;
+      top: 0;
+      width: 210px;
+      height: 22px;
+      background: #ffffff;
+      border-radius: 0 0 10px 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+
+    .cake-half-left .frosting-drip { left: 0; }
+    .cake-half-right .frosting-drip { left: -105px; }
+
+    /* Strawberry Toppings */
+    .strawberry {
+      position: absolute;
+      top: -12px;
+      font-size: 1.3rem;
+      z-index: 5;
+    }
+
+    /* Candle */
+    .candle {
+      position: absolute;
+      top: 52px;
+      left: 133px;
+      width: 14px;
+      height: 44px;
+      background: repeating-linear-gradient(45deg, #ffd166, #ffd166 6px, #ff9f1c 6px, #ff9f1c 12px);
+      border-radius: 4px;
+      z-index: 20;
+      transition: all 0.5s ease;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    }
+
+    .candle-wick {
+      position: absolute;
+      top: -7px;
+      left: 5px;
+      width: 4px;
+      height: 7px;
+      background: #333;
+      border-radius: 2px;
+    }
+
+    .candle-flame {
+      position: absolute;
+      top: -24px;
+      left: -1px;
+      width: 16px;
+      height: 22px;
+      background: radial-gradient(ellipse at bottom, #fff 15%, #ffd166 45%, #ff5277 85%);
+      border-radius: 50% 50% 35% 35% / 60% 60% 40% 40%;
+      box-shadow: 0 0 16px #ffd166, 0 0 28px #ff5277;
+      animation: flicker 1s ease-in-out infinite alternate;
+      transform-origin: bottom center;
+      transition: all 0.5s ease;
+    }
+
+    @keyframes flicker {
+      0% { transform: scale(1) rotate(-2deg); opacity: 0.95; }
+      100% { transform: scale(1.12) rotate(2deg); opacity: 1; }
+    }
+
+    .candle-flame.out {
+      opacity: 0 !important;
+      transform: scale(0.2) translateY(-25px) !important;
+    }
+
+    /* CAKE CUT STATE */
+    .cake-stage.cut .cake-half-left {
+      transform: translateX(-18px) rotate(-4deg);
+    }
+
+    .cake-stage.cut .cake-half-right {
+      transform: translateX(18px) rotate(4deg);
+    }
+
+    .cake-stage.cut .candle {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+
+    .cut-sparkle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2.2rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.5s ease;
+    }
+
+    .cake-stage.cut .cut-sparkle {
+      opacity: 1;
+      transform: translate(-50%, -80%) scale(1.3);
+    }
+
+    /* SEEPING ANIMATION CELEBRATION BOX */
+    .seep-celebration-box {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transform: translateY(20px) scale(0.96);
+      transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+      margin-top: 0;
+      background: rgba(255, 255, 255, 0.95);
+      border: 2px solid transparent;
+      border-radius: 20px;
+      box-shadow: 0 15px 40px rgba(255, 82, 119, 0.18);
+    }
+
+    .seep-celebration-box.seep-in {
+      max-height: 500px;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      margin-top: 25px;
+      padding: 28px 24px;
+      border-color: #ffb3c1;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 240, 245, 0.95));
+      animation: glowBorder 3s infinite alternate;
+    }
+
+    @keyframes glowBorder {
+      0% { box-shadow: 0 10px 30px rgba(255, 82, 119, 0.15); border-color: #ffccd5; }
+      100% { box-shadow: 0 15px 45px rgba(255, 82, 119, 0.35); border-color: #ff5277; }
+    }
+
+    /* Picture Gallery Section */
+    .photo-moments-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      margin: 35px 0 50px 0;
+    }
+
+    .photo-moment-card {
+      background: #ffffff;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(220, 68, 102, 0.1);
+      border: 1px solid rgba(255, 179, 193, 0.4);
+      transition: var(--transition);
+      text-align: center;
+      padding-bottom: 18px;
+    }
+
+    .photo-moment-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 35px rgba(220, 68, 102, 0.2);
+    }
+
+    .moment-img-container {
+      width: 100%;
+      height: 240px;
+      background: linear-gradient(135deg, #fff0f3, #ffd6e0);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .moment-img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .photo-moment-card:hover .moment-img-container img {
+      transform: scale(1.05);
+    }
+
+    .moment-caption {
+      font-family: var(--font-script);
+      font-size: 1.4rem;
+      color: var(--text-main);
+      margin-top: 14px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Welcome To Yashu's Day 🎉</h1>
-  <button id="enterBtn">Enter</button>
-  <div id="instruction">Click the cake 🎂</div>
-  <img id="cake" src="https://i.imgur.com/WHR8cVW.png" alt="Cake" />
-  <audio id="birthdayAudio" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4d09ed28be.mp3?filename=happy-birthday-piano-11391.mp3"></audio>
 
-  <script>
-    const enterBtn = document.getElementById("enterBtn");
-    const cake = document.getElementById("cake");
-    const instruction = document.getElementById("instruction");
-    const audio = document.getElementById("birthdayAudio");
+  <!-- Ambient Floating Particles Canvas -->
+  <canvas id="ambient-canvas"></canvas>
 
-    function createConfetti() {
-      for (let i = 0; i < 100; i++) {
-        const confetti = document.createElement("div");
-        confetti.classList.add("confetti-piece");
-        confetti.style.left = Math.random() * window.innerWidth + "px";
-        confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
-        confetti.style.animationDelay = Math.random() * 2 + "s";
-        document.body.appendChild(confetti);
-        setTimeout(() => confetti.remove(), 5000);
-      }
-    }
+  <div class="page-wrapper">
 
-    enterBtn.addEventListener("click", () => {
-      createConfetti();
-      cake.style.display = "block";
-      instruction.style.display = "block";
-    });
+    <!-- ================= CLEAN TOP HEADER (NO SPOILERS) ================= -->
+    <header class="site-header">
+      <div class="nav-container" style="justify-content: center;">
+        <span class="brand-logo" style="font-size: 2rem;">
+          <span class="brand-heart">💖</span>
+          <span>Happy Birthday Yashaswi!</span>
+          <span class="brand-heart">💖</span>
+        </span>
+      </div>
+    </header>
 
-    cake.addEventListener("click", () => {
-      audio.play();
-      createConfetti();
-    });
-  </script>
+    <!-- ================= MAIN CONTENT ================= -->
+    <main class="container">
+      
+      <!-- HERO HEADER -->
+      <section class="hero-section">
+        <div class="badge-pill">
+          ✨ Today is all about you! ✨
+        </div>
+        <h1 class="page-title">
+          Happy Birthday, <span class="highlight">Yashaswi</span>! 🎉
+        </h1>
+        <p class="page-subtitle">
+          Welcome to your special birthday website made with all my heart. 
+          A little magical space created just for you to celebrate your unforgettable day!
+        </p>
+      </section>
+
+      <!-- INTERACTIVE CAKE CUTTING & CANDLE BLOW SECTION -->
+      <section class="glass-card" style="text-align: center; max-width: 650px; margin: 0 auto;">
+        <h2 style="font-family: var(--font-heading); font-size: 1.65rem; color: var(--text-main); margin-bottom: 6px;">
+          Happiest Birthday Dear Yashaswi to be! :3
+        </h2>
+        <p style="color: var(--text-muted); font-size: 1.05rem; font-weight: 500; margin-bottom: 15px;">
+          May you live happily and your bday goes cozy :3
+        </p>
+
+        <!-- The Animated Cake with Knife & Slice Effect -->
+        <div class="cake-stage" id="cake-interactive-stage">
+          
+          <!-- Animated Golden Knife -->
+          <div class="cake-knife" id="cake-knife">
+            <div class="knife-blade"></div>
+            <div class="knife-handle"></div>
+          </div>
+
+          <!-- Candle & Flame -->
+          <div class="candle">
+            <div class="candle-wick"></div>
+            <div class="candle-flame" id="candle-flame"></div>
+          </div>
+
+          <!-- Sparkle when cut -->
+          <div class="cut-sparkle" id="cut-sparkle">✨🍰✨</div>
+
+          <!-- Cake Plate -->
+          <div class="cake-plate"></div>
+
+          <!-- The Slicing Cake Halves -->
+          <div class="cake-body">
+            <!-- Left Half -->
+            <div class="cake-half cake-half-left">
+              <span class="strawberry" style="left: 20px;">🍓</span>
+              <div class="layer-top"></div>
+              <div class="layer-bottom"></div>
+              <div class="frosting-drip"></div>
+            </div>
+
+            <!-- Right Half -->
+            <div class="cake-half cake-half-right">
+              <span class="strawberry" style="right: 20px;">🍓</span>
+              <div class="layer-top"></div>
+              <div class="layer-bottom"></div>
+              <div class="frosting-drip"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Action Buttons -->
+        <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
+          <button class="btn btn-primary btn-pulse btn-lg" id="cut-cake-btn">
+            🎂 Blow Candle & Cut Cake! 🍰
+          </button>
+          <button class="btn btn-secondary" id="celebrate-confetti-btn">
+            🎉 Pop Confetti!
+          </button>
+        </div>
+
+        <!-- SEEPING ANIMATION CELEBRATION BOX -->
+        <div class="seep-celebration-box" id="seep-celebration-box">
+          <h3 style="font-family: var(--font-script); font-size: 2.2rem; color: var(--primary); margin-bottom: 8px;">
+            ✨ Happiest Birthday Dear Yashaswi! :3 ✨
+          </h3>
+          <p style="font-size: 1.1rem; color: var(--text-main); line-height: 1.7; max-width: 520px; margin: 0 auto; font-weight: 500;">
+            May you live happily and your bday goes cozy :3
+          </p>
+          <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; max-width: 500px; margin: 10px auto 0 auto;">
+            The cake is cut, the wish is made! Sending you infinite warmth, cozy moments, and sweetest smiles today and always. 💖
+          </p>
+        </div>
+      </section>
+
+      <!-- PICTURES SECTION -->
+      <section style="margin-top: 60px;">
+        <div style="text-align: center; margin-bottom: 25px;">
+          <h2 style="font-family: var(--font-heading); font-size: 2rem;">
+            Moments of Yashaswi with you &lt;3
+          </h2>
+          <span class="handwritten">Forever cherished</span>
+        </div>
+
+        <div class="photo-moments-grid">
+          <!-- Photo Card 1 -->
+          <div class="photo-moment-card">
+            <div class="moment-img-container">
+              <img src="pic1.jpg" alt="I love you">
+            </div>
+            <p class="moment-caption">I love you</p>
+          </div>
+
+          <!-- Photo Card 2 -->
+          <div class="photo-moment-card">
+            <div class="moment-img-container">
+              <img src="pic2.webp" alt="I love you">
+            </div>
+            <p class="moment-caption">I love you</p>
+          </div>
+
+          <!-- Photo Card 3 -->
+          <div class="photo-moment-card">
+            <div class="moment-img-container">
+              <img src="pic3.jpg" alt="I love you">
+            </div>
+            <p class="moment-caption">I love you</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- MAIN CALL TO ACTION -->
+      <div class="page-navigation-actions" style="margin-bottom: 60px;">
+        <a href="about.html" class="btn btn-primary btn-lg" style="font-size: 1.2rem; padding: 18px 45px;">
+          Its not over yet! ➔
+        </a>
+      </div>
+
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="site-footer">
+      <div class="container">
+        <p>Made with all my heart for <strong>Happy Birthday Yashaswi!</strong> ✨ | Enjoy every second!</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
 </body>
 </html>
